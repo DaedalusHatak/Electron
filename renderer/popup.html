@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Powiadomienie</title>
+  <style>
+    /* 1. Use a more-intuitive box-sizing model */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  /* 4. Add accessible line-height */
+  line-height: 1.5;
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 6. Improve media defaults */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
+#root, #__next {
+  isolation: isolate;
+}
+    html{
+      box-sizing: border-box;
+    }
+    body {
+      background: rgba(0,0,0,0.7);
+      color: white;
+      font-size: 1.2rem;
+      display: flex;
+      flex-direction: column;
+    
+      align-items: flex-start;
+      text-align: center;
+      justify-content: space-between;
+      margin: 0;
+    position: relative;
+      min-height: 100svh;
+    }
+    button {
+      position: relative;
+      align-self: end;
+      transition: 0.3s;
+      bottom: 10px;
+      right: 10px;
+      width: 105px;
+      margin-top: 1rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #42ca84;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button:hover{
+      background-color: #00ff7b;
+    }
+    #msg{
+      word-break: break-all;
+      font-size: 18px;
+      width: 100%;
+      padding: 2rem;
+       }
+  </style>
+</head>
+<body>
+  <div id="msg"></div>
+  <button id="okBtn">OK</button>
+
+  <script>
+    const msgDiv = document.getElementById('msg');
+    const okBtn = document.getElementById('okBtn');
+
+    window.electronAPI.onPopup((data) => {
+      msgDiv.textContent = ` ${data.content}`;
+    });
+
+    okBtn.addEventListener('click', () => {
+      window.close();
+    });
+  </script>
+</body>
+</html>

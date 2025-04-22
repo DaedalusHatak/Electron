@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Wysyłanie powiadomienia</title>
+  <style>
+    body { font-family: sans-serif; padding: 0.25rem; }
+    h2 {
+        text-align: center;
+      margin: 1rem 0; 
+    }
+    input { margin-bottom: 0.5rem; font-size: 21px; width: 100%; box-sizing: border-box;}
+    button { width: 100%; font-size: 1rem; background-color: #216743; color: white; border: none; padding: 0.5rem; border-radius: 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Nowe powiadomienie</h2>
+  <form id="sendForm">
+    <input type="text" id="content" placeholder="Opis" required><br>
+    <input type="text" id="taskId" placeholder="ID zlecenia"><br>
+    <button type="submit">Wyślij</button>
+  </form>
+
+  <script>
+
+const taskIdInput = document.getElementById('taskId');
+
+window.electronAPI.getShowTaskId().then(show => {
+    if (show) {
+      taskIdInput.style.display = 'block';
+    } else {
+      taskIdInput.style.display = 'none';
+    }
+  });
+
+  // Nasłuchuj na zmianę ustawienia w tray i natychmiastowo zmieniając widoczność
+  window.electronAPI.onToggleShowTaskId((show) => {
+    if (show) {
+      taskIdInput.style.display = 'block';
+    } else {
+      taskIdInput.style.display = 'none';
+    }
+  });
+
+
+  function generateTaskId() {
+    return `task-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  }
+
+    const form = document.getElementById('sendForm');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const message = document.getElementById('content').value;
+      const number = ' [' + document.getElementById('taskId').value+'] '
+
+      const data = {
+        content:  document.getElementById('taskId').value ? message + number : message,
+        taskId: generateTaskId(),
+        showPopup: true,
+      };
+      window.electronAPI.sendNotification(data);
+      form.reset();
+    });
+
+
+
+ 
+  </script>
+</body>
+</html>

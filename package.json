@@ -1,0 +1,50 @@
+{
+  "name": "electron-popup-messenger",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Desktop messenger with popup and history via WebSocket",
+  "main": "main.mjs",
+  "scripts": {
+    "start": "electron .",
+     "build": "electron-builder --win --ia32"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+   
+    "electron-store": "^10.0.1",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-builder": "^26.0.12"
+  },
+
+"build": {
+  "appId": "com.powiadomienia.electron",
+  "productName": "Powiadomienia Electron",
+  "copyright": "Copyright © 2025",
+  "win": {
+    "icon": "icons/tray.png",
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      },
+      {
+        "target": "nsis",
+        "arch": ["ia32"]
+      }
+    ]
+  },
+  "mac": {
+    "target": "dmg",
+    "icon": "icons/tray.png"
+  },
+  "linux": {
+    "target": "AppImage",
+    "icon": "icons/tray.png"
+  }
+}
+
+}

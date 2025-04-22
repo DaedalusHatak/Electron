@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head><meta charset="UTF-8"><title>Konfiguracja</title></head>
+  <body>
+    <h1>Ustawienia sieci</h1>
+    <label>IP Serwera: <input id="serverIP" type="text" /></label><br />
+    <button id="saveBtn">Zapisz</button>
+  <script>
+    document.getElementById("saveBtn").addEventListener("click", () => {
+  const ip = document.getElementById("serverIP").value;
+ 
+  window.electronAPI.saveConfig({ serverIP: ip });
+});
+  </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Historia powiadomień</title>
+  <style>
+    body { font-family: sans-serif; padding: 0.25rem;  }
+    .notif { border-bottom: 1px solid #ccc;font-size: 21px; margin: 0.5rem 0; padding-bottom: 0.5rem; display: flex; justify-content: space-between;  word-break: break-all; }
+    button { font-size: 1rem; word-break: keep-all; background-color: #216743; color: white; border: none;padding: 0.5rem; border-radius: 10px; cursor: pointer; height: 40px; }
+    input {margin-bottom: 0.5rem; font-size: 21px;}
+    h2 {
+      text-align: center;
+     margin: 0; 
+    }
+
+  </style>
+</head>
+<body>
+  <h2>Historia powiadomień</h2>
+  <div id="history"></div>
+  <script>
+    const historyDiv = document.getElementById('history');
+
+    function renderHistory(notifs) {
+      historyDiv.innerHTML = ''; // Wyczyść historię przed ponownym renderowaniem
+      notifs.forEach(n => {
+        const el = document.createElement('div');
+        el.className = 'notif';
+        el.innerHTML = `
+         ${n.content}
+          <button onclick="removeNotification('${n.taskId}')">Usuń</button>
+        `;
+        historyDiv.appendChild(el);
+      });
+    }
+
+    window.electronAPI.getHistory().then(renderHistory);
+
+    window.electronAPI.onNewNotification((data) => {
+      window.electronAPI.getHistory().then(renderHistory);
+    });
+
+    window.electronAPI.onShowSend(() => {
+      document.getElementById('content').focus();
+    });
+
+    function removeNotification(taskId) {
+      window.electronAPI.removeNotification(taskId); // Wywołanie IPC do usunięcia powiadomienia
+    }
+  </script>
+</body>
+</html>
