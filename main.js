@@ -1,11 +1,9 @@
-import Store from "electron-store";
-import { app, Tray, Menu, BrowserWindow, ipcMain } from "electron";
-import path from "path";
-import WebSocket from "ws";
-import { WebSocketServer } from "ws";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-import fs from "fs";
+const { app, Tray, Menu, BrowserWindow, ipcMain } = require("electron");
+const path = require("path");
+const WebSocket = require("ws");
+const { WebSocketServer } = require("ws");
+const fs = require("fs");
+const Store = require("electron-store");
 
 const configFilePath = path.join(app.getPath("userData"), "config.json");
 console.log(configFilePath)
@@ -19,8 +17,7 @@ function getConfig() {
   }
   return null;
 }
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+
 
 const store = new Store({ defaults: { notifications: [], showPopups: true } });
 
@@ -55,7 +52,7 @@ function createMainWindow() {
       preload: path.join(__dirname, "preload.js"),
     },
   });
-  mainWindow.removeMenu();
+  // mainWindow.removeMenu();
   mainWindow.loadFile("renderer/index.html");
   mainWindow.on("close", (event) => {
     event.preventDefault();
@@ -89,7 +86,7 @@ function createPopupWindow(notification) {
   // Utwórz całkowicie nowe okno aplikacji na powiadomienie
   const popupWindow = new BrowserWindow({
     width: 600,
-    height: 330,
+    height: 200,
     alwaysOnTop: true,
     frame: true,
     transparent: false,
@@ -102,7 +99,7 @@ function createPopupWindow(notification) {
   });
 
 
-  popupWindow.removeMenu();
+  //popupWindow.removeMenu();
   // Załaduj treść powiadomienia w tym oknie
   popupWindow.loadFile("renderer/popup.html");
 
@@ -140,6 +137,16 @@ function setupTray() {
         sendWindow.webContents.send("toggle-show-task-id", menuItem.checked);
       },
     },
+    {
+      label: "Pokaż przycisk usuwania",
+      type: "checkbox",
+      checked: store.get("buttonDisabled"),
+      click: (menuItem) => {
+        store.set("buttonDisabled", menuItem.checked);
+        mainWindow.webContents.send("toggle-delete-button", menuItem.checked);
+      },
+    },
+
     { label: "Ustawienia", click: () => createConfigWindow() },
     { type: "separator" },
     { label: "Zamknij", click: () => {if (tray) tray.destroy(); // zniszcz tray
@@ -299,7 +306,7 @@ function showConnectionErrorAndExit(ip, message) {
       <p>${message}</p>
       <button onclick="window.close()">Zamknij aplikację</button>
       <script>
-        const { ipcRenderer } = require('electron');
+        const { ipcRenderer }  = require('electron');
         window.onunload = () => ipcRenderer.send('force-quit');
       </script>
     </body>
@@ -318,7 +325,8 @@ function handleNotification(data) {
     mainWindow.webContents.send("new-notification", data);
 
     createPopupWindow(data);
-    mainWindow.show();
+    if (store.get("showPopups"))    mainWindow.show();
+ 
   }
 }
 ipcMain.on("send-notification", (_, data) => {
@@ -339,7 +347,7 @@ ipcMain.on("remove-notification", (_, taskId) => {
 });
 
 ipcMain.handle("get-history", () => store.get("notifications"));
-
+ipcMain.handle("get-button-disabled", () => store.get("buttonDisabled"));
 app.whenReady().then(() => {
   const config = getConfig();
 
@@ -361,6 +369,12 @@ ipcMain.handle("get-config", () => {
     return JSON.parse(fs.readFileSync(configFilePath));
   }
   return {};
+});
+
+ipcMain.on('show-send-window', () => {
+  if (sendWindow) {
+    sendWindow.show();
+  }
 });
 
 ipcMain.on("save-config", (_, config) => {

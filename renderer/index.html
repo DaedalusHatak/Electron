@@ -4,31 +4,132 @@
   <meta charset="UTF-8">
   <title>Historia powiadomień</title>
   <style>
+   /* 1. Use a more-intuitive box-sizing model */
+   *, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  /* 4. Add accessible line-height */
+  line-height: 1.5;
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 6. Improve media defaults */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
+#root, #__next {
+  isolation: isolate;
+}
+    html{
+      box-sizing: border-box;
+    }
+
     body { font-family: sans-serif; padding: 0.25rem;  }
-    .notif { border-bottom: 1px solid #ccc;font-size: 21px; margin: 0.5rem 0; padding-bottom: 0.5rem; display: flex; justify-content: space-between;  word-break: break-all; }
+    .notif {padding: 0 20px;align-items: center; width: 100%; border-bottom: 1px solid #ccc;font-size: 21px; margin: 0.5rem 0; padding-bottom: 0.5rem; display: flex; justify-content: space-between;  word-break: break-all; }
     button { font-size: 1rem; word-break: keep-all; background-color: #216743; color: white; border: none;padding: 0.5rem; border-radius: 10px; cursor: pointer; height: 40px; }
+
     input {margin-bottom: 0.5rem; font-size: 21px;}
     h2 {
       text-align: center;
      margin: 0; 
+     margin-bottom: 30px;
     }
+    p{
 
+      margin: 0;
+      text-align: right;
+    }
+    .right-side{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .send-button{
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 45px;
+      height: 45px;
+      background-color: #63f577;
+      color:black;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      border-radius: 100%;
+     border: 1pt solid #153323;
+    }
+    .send-button img {
+      height: 25px;
+    }
   </style>
 </head>
 <body>
   <h2>Historia powiadomień</h2>
+  <button class="send-button" onclick="window.electronAPI.showSendWindow()"> <img src="../icons/plus-solid.svg" alt="Plus icon" /></button>
   <div id="history"></div>
+ 
   <script>
     const historyDiv = document.getElementById('history');
+    let isDisabled;
+    window.electronAPI.getButtonDisabled().then(state => {
+  isDisabled = state;
+  window.electronAPI.getHistory().then(renderHistory);
+});
 
+// Reaguj na zmianę z menu
+window.electronAPI.onToggleDeleteButton((state) => {
+  isDisabled = state;
+  window.electronAPI.getHistory().then(renderHistory);
+});
     function renderHistory(notifs) {
       historyDiv.innerHTML = ''; // Wyczyść historię przed ponownym renderowaniem
       notifs.forEach(n => {
         const el = document.createElement('div');
         el.className = 'notif';
         el.innerHTML = `
-         ${n.content}
-          <button onclick="removeNotification('${n.taskId}')">Usuń</button>
+       ${n.content}
+      <div class="right-side">
+         <p>${n.date}</p>
+          ${isDisabled ? `<button onclick="removeNotification('${n.taskId}')">Usuń</button>` : '' }
+        </div>
         `;
         historyDiv.appendChild(el);
       });

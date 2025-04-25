@@ -47,6 +47,19 @@ window.electronAPI.getShowTaskId().then(show => {
     return `task-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   }
 
+  function getFormattedDateTime() {
+    const now = new Date();
+
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // miesiące są liczone od 0
+    const year = now.getFullYear();
+
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
     const form = document.getElementById('sendForm');
 
     form.addEventListener('submit', (e) => {
@@ -56,6 +69,7 @@ window.electronAPI.getShowTaskId().then(show => {
       const number = ' [' + document.getElementById('taskId').value+'] '
 
       const data = {
+        date: getFormattedDateTime(),
         content:  document.getElementById('taskId').value ? message + number : message,
         taskId: generateTaskId(),
         showPopup: true,

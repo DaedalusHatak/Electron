@@ -11,7 +11,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getShowTaskId: () => ipcRenderer.invoke('get-show-task-id'),
     toggleShowTaskId: (show) => ipcRenderer.send('toggle-show-task-id', show),
     onToggleShowTaskId: (callback) => ipcRenderer.on('toggle-show-task-id', (_, show) => callback(show)),
+    onToggleDeleteButton: (callback) => ipcRenderer.on('toggle-delete-button', (_, state) => callback(state)),
+    getButtonDisabled: () => ipcRenderer.invoke('get-button-disabled'),
     saveConfig: (config) => ipcRenderer.send("save-config", config),
     getConfig: () => ipcRenderer.invoke("get-config"),
- 
+    showSendWindow: () => ipcRenderer.send('show-send-window'),
   });
