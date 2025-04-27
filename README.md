@@ -20,10 +20,11 @@ Currently, the app's interface is **only available in Polish** 🇵🇱.
 
 ---
 
-## 📦 Installation
+📚 Notes
+This app is currently only in Polish.
 
-```bash
-git clone https://github.com/your-username/electron-notification-app.git
-cd electron-notification-app
-npm install
-npm start
+WebSocket connection is local network only (LAN). No encryption — please use in trusted environments.
+
+Only basic security is in place. No authentication or encryption for WebSocket yet.
+
+Make sure your firewall allows WebSocket traffic (default port configurable inside the app).
