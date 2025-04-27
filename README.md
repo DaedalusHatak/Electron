@@ -8,7 +8,7 @@ Currently, the app's interface is **only available in Polish** 🇵🇱.
 
 ## Executable
 
-[![Download .EXE](https://github.com/DaedalusHatak/Electron-Notification-App/releases/latest/download/Powiadomienia.Electron.Setup.1.0.0.exe)
+[![Download .EXE](https://img.shields.io/badge/Download-.EXE-blue?style=for-the-badge&logo=windows)](https://github.com/DaedalusHatak/Electron-Notification-App/releases/latest/download/Powiadomienia.Electron.Setup.1.0.0.exe)
 
 
 ---
