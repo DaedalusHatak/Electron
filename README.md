@@ -20,6 +20,19 @@ Currently, the app's interface is **only available in Polish** 🇵🇱.
 
 ---
 
+## ⚙️ Usage
+Launch the app on the PC(s) you want to communicate with.
+
+Set the IP address of the receiving PC in the app settings.
+
+Send notifications — they will appear instantly on top of all windows.
+
+Manage your local notification history: delete individual notifications or disable the delete option if needed.
+
+Toggle notification pop-ups globally via the "Disable Notifications" switch.
+
+---
+
 ## 📚 Notes
 This app is currently only in Polish.
 
