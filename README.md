@@ -20,7 +20,7 @@ Currently, the app's interface is **only available in Polish** 🇵🇱.
 
 ---
 
-📚 Notes
+## 📚 Notes
 This app is currently only in Polish.
 
 WebSocket connection is local network only (LAN). No encryption — please use in trusted environments.
