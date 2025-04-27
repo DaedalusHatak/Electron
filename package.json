@@ -20,7 +20,7 @@
   "build": {
     "appId": "com.powiadomienia.electron",
     "productName": "Powiadomienia Electron",
-    "copyright": "Copyright © 2025",
+    "copyright": "Pawel Kicinski Copyright © 2025",
     "win": {
       "icon": "icons/tray.png",
       "target": [
