@@ -4,6 +4,16 @@
 Notifications open *on top of all other windows*, ensuring visibility even during focused work.
 
 Currently, the app's interface is **only available in Polish** 🇵🇱.
+---
+
+## Executable
+
+[![Download .EXE](https://img.shields.io/badge/Download-.EXE-blue?style=for-the-badge&logo=windows)](https://github.com/DaedalusHatak/Electron-Notification-App/releases/latest/download/Powiadomienia.Electron.Setup.1.0.0.exe)
+
+---
+
+![{59F5AEEA-C0A6-4373-9A88-3A71403E9751}](https://github.com/user-attachments/assets/03388042-cc61-45a2-b1f9-650132cd96b4)
+
 
 ---
 
