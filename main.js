@@ -52,7 +52,7 @@ function createMainWindow() {
       preload: path.join(__dirname, "preload.js"),
     },
   });
-  // mainWindow.removeMenu();
+   mainWindow.removeMenu();
   mainWindow.loadFile("renderer/index.html");
   mainWindow.on("close", (event) => {
     event.preventDefault();
@@ -99,7 +99,7 @@ function createPopupWindow(notification) {
   });
 
 
-  //popupWindow.removeMenu();
+  popupWindow.removeMenu();
   // Załaduj treść powiadomienia w tym oknie
   popupWindow.loadFile("renderer/popup.html");
 
